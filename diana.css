@@ -1,23 +1,26 @@
 a:link {
-	color:#0000ff; 
+	color:#0000ff;
 }
 a:visited {
-	color:#9999ff; 
-} 
+	color:#9999ff;
+}
 a:active, a:hover {
 	color: rgb(255,51,0);
 }
 body {
 	background-color:#555555;
-	margin:0;
+	left: 0;
+	margin:0 auto;
+	right: 0;
 	text-align:center;
+	max-width: 640px;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: Verdana,sans-serif;	
+	font-family: Verdana,sans-serif;
 }
 td {
 	color:#fff;
 	font-family: georgia,"times new roman",times,serif;
 	text-align:center;
-	width:640;	
+	width:640;
 }
