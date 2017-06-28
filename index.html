@@ -24,7 +24,7 @@ summary h3 { display: inline; }
 
 #container { border: 0px #0f0 solid; height: 100%; left: 0; position: absolute; overflow: hidden; transition: left 1s; width: 100%; }
 
-#contents { border: 0px #f00 solid; height: 100%; left: 325px; overflow-x: hidden; position: absolute; max-width: calc( 100% - 325px); }
+#contents { border: 0px #f00 solid; height: 100%; left: 325px; overflow: hidden; position: absolute; max-width: calc( 100% - 325px); }
 
 #butEditFile { background-color: #555; color: #fff; opacity: 0.5; padding: 8px; position: fixed; right: 20px; top: 20px; }
 #butEditFile a { text-decoration: none; color: #fff; }
@@ -480,6 +480,7 @@ page += '<div style=display:inline-block;margin:10px; >' +
 }
 
 contents.innerHTML = page;
+contents.style.overflow = 'auto';
 
 //	CON.setButtons( path, true );
 
