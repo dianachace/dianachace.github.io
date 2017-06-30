@@ -1,11 +1,14 @@
 a:link {
 	color:rgb( 255, 210, 255 ) ;
+	font-weight: bold;
 }
 a:visited {
-	color:#88f;
+	color:#77f;
+	font-weight: bold;
 }
 a:active, a:hover {
 	color: rgb(255,51,0);
+	font-weight: bold;
 }
 body {
 	background-color:#a99;
