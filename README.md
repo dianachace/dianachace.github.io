@@ -1,9 +1,9 @@
 # [dianachace.github.io]( https://dianachace.github.io )
 
-# [dianachace.com]( https://dianachace.com )
+# [dianachace.com]( http://dianachace.com )
 
-# [Art of Power]( https://artofpower.com )
+# [Art of Power]( http://artofpower.com )
 
-# [artofpower.org]( https://artofpower.org )
+# [artofpower.org]( http://artofpower.org )
 
 a web site about Diana and her amazing life
