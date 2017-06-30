@@ -2,14 +2,14 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>TooToo5 Diana Chace R1</title>
+<title>Diana Chace</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='Browse and view files on DianaChace.com with remarkable ease.' >
 <meta name=keywords content='CSS,HTML,JavaScript,GitHub,FOSS' >
 <meta name=date content='2017-06-27' >
 <style>
-html, body { font: 12pt monospace; height: 100%; margin: 0; overflow: hidden; }
-a { color: rgb( 255, 210, 255 ) ; text-decoration: none; }
+html, body { font: 14pt georgia,"times new roman",times,serif; height: 100%; margin: 0; overflow: hidden; }
+a { color: rgb( 255, 210, 255 ) ; font-weight: bold; text-decoration: none; }
 a:hover { text-decoration: underline; }
 a:active { background-color: yellow; }
 aside { font-style: oblique; }
@@ -24,7 +24,7 @@ summary h3 { display: inline; }
 
 #container { border: 0px #0f0 solid; height: 100%; left: 0; position: absolute; overflow: hidden; transition: left 1s; width: 100%; }
 
-#contents { border: 0px #f00 solid; height: 100%; left: 325px; overflow: hidden; position: absolute; max-width: calc( 100% - 325px); }
+#contents { border: 0px #f00 solid; height: 100%; left: 325px; overflow-x: hidden; position: absolute; overflow: hidden; }
 
 #butEditFile { background-color: #555; color: #fff; opacity: 0.5; padding: 8px; position: fixed; right: 20px; top: 20px; }
 #butEditFile a { text-decoration: none; color: #fff; }
@@ -36,7 +36,9 @@ summary h3 { display: inline; }
 #butNextFile a, #butPreviousFile a { text-decoration: none; color: #888; }
 #butNextFile:hover, #butPreviousFile:hover { cursor: pointer; opacity: 1; }
 
-#divMD {border: 0px orange solid; margin: 0 auto; max-width: 800px; overflow-x: hidden; position: adsolute; }
+#divGallery { background-color: #a99; border: 0px orange solid; height: 100%; margin: 0 auto; overflow-x: hidden; position: adsolute; }
+#divMD { border: 0px orange solid; margin: 0 auto; max-width: 800px; overflow-x: hidden; position: adsolute; }
+
 
 #hamburger { background-color: #eee; left: 325px; position: absolute; top: 20px; z-index: 1 }
 #hamburger h2, #menuItems h2, #menuItems h4 { margin: 0; }
@@ -45,8 +47,11 @@ summary h3 { display: inline; }
 #ifrHTML { border: 0px yellow solid; margin: 0; height: 100%; padding: 0; width: 100%; }
 
 #menu { background-color: #877; border: 1px #ccc solid; box-sizing:border-box; height: 100%; overflow-y: auto; padding: 0 10px; position: fixed; width: 325px; }
-#menu ul { margin:0; padding-left:20px; }
+#menu ul { padding-left:20px; }
+#menu li { margin-bottom: 20px; }
 #menuBreadcrumbs h2, #menuBreadcrumbs h3, #mnuUserTitle h3 { font-size: 14pt; margin: 0; }
+
+.mnuHighlight { background-color: DarkMagenta; }
 
 
 </style>
@@ -236,6 +241,8 @@ mnuContents.innerHTML =
 
 CON.setDefaultContents = function() {
 
+console.log( '', location.hash );
+
 let txt, start, path, p;
 
 if ( !location.hash && user.defaultFile ) {
@@ -245,14 +252,27 @@ location.hash = user.defaultFile;
 return;
 
 }
+/*
+if ( location.hash === '#' + user.defaultFile ) {
 
-for ( var i = 0; i < SEL.files.length; i++ ) {
+onHashChange();
 
-path = SEL.files[ i ];
+return;
+
+}
+*/
+if ( location.hash ) {
+
+onHashChange();
+
+return;
+
+}
+
+for ( var i = 0; i < TYP.files.length; i++ ) {
+
+path = TYP.files[ i ];
 p = path.toLowerCase();
-
-//	if ( p.endsWith( 'readme.md' ) ) { CON.getFileSetContents( path ); return; }
-//	if ( p.endsWith( 'index.html' ) || p.endsWith( 'index.htm') ) { CON.getFileSetContents( path ); return; }
 
 if ( p.endsWith( 'readme.md' ) ) { location.hash = path; return; }
 if ( p.endsWith( 'index.html' ) || p.endsWith( 'index.htm') ) { location.hash = path; return; }
@@ -261,7 +281,7 @@ if ( p.endsWith( 'index.html' ) || p.endsWith( 'index.htm') ) { location.hash = 
 
 // nothing found, so just display the first file found
 
-path = SEL.files[ 0 ];
+path = TYP.files[ 0 ];
 location.hash = path;
 
 }
@@ -299,11 +319,12 @@ return;
 
 } else {
 
-//CON.urlGHPages = 'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/' ;
-CON.urlGHPages = 'https://dianachace.github.io/' ;
+CON.urlGHPages = 'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/' ;
 }
 
-url = CON.urlGHPages + path;
+
+//	url = CON.urlGHPages + path;
+url = user.server + path;
 
 u = url.toLowerCase();
 
@@ -331,7 +352,7 @@ CON.getFileCode( url );
 }
 
 CON.setButtons( path );
-SEL.highlightMenuItem();
+TYP.highlightMenuItem();
 
 //	menu.scrollTop = 0;
 
@@ -364,7 +385,7 @@ let text, response;
 
 showdown.setFlavor('github');
 
-SEL.requestFile( url, callbackMD );
+TYP.requestFile( url, callbackMD );
 
 function callbackMD( xhr ) {
 
@@ -433,7 +454,7 @@ editor = ace.edit( 'contentsCode' );
 editor.$blockScrolling = Infinity;
 editor.getSession().setMode( 'ace/mode/markdown' );
 
-SEL.requestFile( url, callback );
+TYP.requestFile( url, callback );
 
 function callback( xhr ) {
 
@@ -452,12 +473,12 @@ let page, url, items, item, source;
 
 page = '';
 
-ppath = path.slice( path.indexOf( '!') + 1 );
-url = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/contents/' + ppath;
+path = path.slice( path.indexOf( '!') + 1 );
+url = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/contents/' + path;
 
-// console.log( 'url', url, 'p', path );
+//console.log( 'url', url, 'p', path );
 
-SEL.requestFile( url, callbackGalleryContents );
+TYP.requestFile( url, callbackGalleryContents );
 
 function callbackGalleryContents( xhr ){
 
@@ -469,9 +490,9 @@ for ( let i = 0; i < items.length; i++ ) {
 item = items[ i ];
 
 source = item.download_url;
-
-if ( source.includes( '.thumb' ) || source.includes( '.highlight' ) || source.endsWith( '.dat' ) ||
-source.endsWith( '.lock' ) ) { continue; }
+src = source.toLowerCase();
+if ( src.includes( '.thumb' ) || src.includes( '.highlight' ) || src.endsWith( '.dat' ) ||
+src.endsWith( '.lock' ) || src.endsWith( '.avi' ) || src.endsWith( '.html' )) { continue; }
 
 page += '<div style=display:inline-block;margin:10px; >' +
 '<a href=JavaScript:CON.getFileSetContents("' + item.path +'"); ><img src=' + source + ' height=200; title="' + url.slice( 0, -4 ) + '" ></a>' +
@@ -479,8 +500,9 @@ page += '<div style=display:inline-block;margin:10px; >' +
 
 }
 
-contents.innerHTML = page;
-contents.style.overflow = 'auto';
+contents.innerHTML = '<div id=divGallery >' + page + '</div>';
+
+//	contents.style.overflow = 'auto';
 
 //	CON.setButtons( path, true );
 
@@ -504,29 +526,29 @@ butEditFile.innerHTML = '<a href="https://github.com/' + user.user + '/' + user.
 
 }
 
-index = SEL.files.indexOf( path );
+index = TYP.files.indexOf( path );
 
 indexNext = index + 1;
-if ( indexNext >= SEL.files.length ) { indexNext = 0; }
+if ( indexNext >= TYP.files.length ) { indexNext = 0; }
 
 indexPrevious = index - 1;
-if ( indexPrevious < 0 ) { indexPrevious = SEL.files.length - 1; }
+if ( indexPrevious < 0 ) { indexPrevious = TYP.files.length - 1; }
 
 if ( butNextFile || butPreviousFile ) {
 
-butNextFile.innerHTML = '<a href="#' + SEL.files[ indexNext ] + '" > &gt; </a>';
-butPreviousFile.innerHTML = '<a href="#' + SEL.files[ indexPrevious ] + '" > &lt; </a>';
+butNextFile.innerHTML = '<a href="#' + TYP.files[ indexNext ] + '" > &gt; </a>';
+butPreviousFile.innerHTML = '<a href="#' + TYP.files[ indexPrevious ] + '" > &lt; </a>';
 
 }
 
 }
 
-var SEL = SEL || {};
+var TYP = TYP || {};
 
 
-SEL.typeSelectedIndex = MNU.tableOfContents ? 0 : 1;
+TYP.typeSelectedIndex = MNU.tableOfContents ? 0 : 1;
 
-SEL.initSelectType = function() {
+TYP.initSelectType = function() {
 
 mnuSelectType.innerHTML =
 
@@ -534,7 +556,7 @@ mnuSelectType.innerHTML =
 
 '<summary><h3>Select Menu Type</h3></summary>' +
 
-'<select id=selType onchange=SEL.selectMenuType(); title="Select type of menu" size=6 style=width:100%; >' +
+'<select id=selType onchange=TYP.selectMenuType(); title="Select type of menu" size=6 style=width:100%; >' +
 '<option title="created by humans" >Table of Contents</option>' +
 '<option >All Files</option>' +
 '<option >Folders & Files</option>' +
@@ -548,18 +570,18 @@ mnuSelectType.innerHTML =
 '';
 
 
-selType.selectedIndex = SEL.typeSelectedIndex;
+selType.selectedIndex = TYP.typeSelectedIndex;
 
 }
 
 
 
-SEL.selectMenuType = function() {
+TYP.selectMenuType = function() {
 
-var types = [ SEL.setMenuContents, SEL.getTreeAllFiles, SEL.setMenuFoldersFiles, SEL.createGroups, SEL.listByFolders, SEL.listAlphabetical ]
-var path = user.path ? user.path : undefined;
-SEL.setMenu = types[ selType.selectedIndex ];
-SEL.setMenu( path );
+var types = [ TYP.setMenuContents, TYP.getTreeAllFiles, TYP.setMenuFoldersFiles, TYP.createGroups, TYP.listByFolders, TYP.listAlphabetical ]
+var path = user.path ? user.path : '';
+TYP.setMenu = types[ selType.selectedIndex ];
+TYP.setMenu( path );
 
 mnuContentsTitle.innerHTML = selType.value;
 mnuBreadcrumbs.innerHTML = '';
@@ -568,7 +590,7 @@ mnuBreadcrumbs.innerHTML = '';
 
 
 
-SEL.setMenuContents = function() { // we have a table of contents / SEL.tableOfContents somewhere
+TYP.setMenuContents = function() { // we have a table of contents / TYP.tableOfContents somewhere
 
 let text, fNames, fName;
 
@@ -578,11 +600,11 @@ mnuItems.innerHTML = 'Sadly, no human has created a curated menu for this reposi
 return;
 }
 
-SEL.files = [];
+TYP.files = [];
 
 showdown.setFlavor( 'github' );
 
-SEL.converter = new showdown.Converter();
+TYP.converter = new showdown.Converter();
 
 text = CON.massageText( MNU.tableOfContents );
 
@@ -595,7 +617,7 @@ for ( let i = 1; i < fNames.length - 1; i++ ) {
 fName = fNames[ i ];
 if ( fName.includes( '##' ) || fName === '' || fName.length < 5 ) { continue; }
 
-SEL.files.push( fName.replace( '#', '' ) );
+TYP.files.push( fName.replace( '#', '' ) );
 
 }
 
@@ -605,23 +627,24 @@ CON.setDefaultContents();
 
 
 
-SEL.getTreeAllFiles = function( path ) {
+TYP.getTreeAllFiles = function( path ) {
+
 let url;
 
 url = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/contents/' + ( path ? path : '' );
 
-SEL.requestFile( url, callback );
+TYP.requestFile( url, callback );
 
-SEL.setBreadcrumbs( path );
+TYP.setBreadcrumbs( path );
 
 function callback( xhr ) {
 
-//	let response, items, item, link;
+let response, items, item, link;
 
 response = xhr.target.response;
 items = JSON.parse( response );
 
-SEL.files = [];
+TYP.files = [];
 mnuItems.innerHTML = '';
 
 for ( let item of items ) {
@@ -629,8 +652,8 @@ for ( let item of items ) {
 if ( item.type === 'dir' ) {
 
 mnuItems.innerHTML +=
-//	'<div><a href=JavaScript:location.hash="";SEL.getTreeAllFiles("' + item.path + '"); > 🗀 ' + item.name + '</a></div>' +
-'<div><a href=JavaScript:SEL.getTreeAllFiles("' + item.path + '"); > 🗀 ' + item.name + '</a></div>' +
+//	'<div><a href=JavaScript:location.hash="";TYP.getTreeAllFiles("' + item.path + '"); > 🗀 ' + item.name + '</a></div>' +
+'<div><a href=JavaScript:TYP.getTreeAllFiles("' + item.path + '"); > 🗀 ' + item.name + '</a></div>' +
 
 '';
 
@@ -638,7 +661,7 @@ mnuItems.innerHTML +=
 
 }
 
-link = 'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/';
+//	link = 'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/';
 
 for ( let item of items ) {
 
@@ -649,10 +672,10 @@ if ( item.type === 'file' ) {
 mnuItems.innerHTML +=
 '<div>' +
 '<a href=#' + encodeURI( item.path ) + ' > ' + item.name + '</a> ' +
-( item.path.endsWith( '.html') ? '<a href="' + encodeURI( link + item.path ) + '" target=_blank >&#x1F5D7;</a>' : '' ) +
+( item.path.endsWith( '.html') ? '<a href="' + encodeURI( user.server + item.path ) + '" target=_blank >&#x1F5D7;</a>' : '' ) +
 '</div>';
 
-SEL.files.push( item.path );
+TYP.files.push( item.path );
 
 }
 
@@ -666,54 +689,58 @@ CON.setDefaultContents();
 
 
 
-SEL.setMenuFoldersFiles = function( path ) {
+TYP.setMenuFoldersFiles = function( path ) {
 
-var tree = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/git/trees/' + user.branch + '?recursive=1';
+//	var tree, response
 
-SEL.requestFile( tree, callback );
+tree = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/git/trees/' + user.branch + '?recursive=1';
+
+TYP.requestFile( tree, callback );
 
 function callback( xhr ) {
 
 response = JSON.parse( xhr.target.response );
-SEL.files = [];
+console.log( 'res', path );
+TYP.files = [];
 
 for ( let file of response.tree ) {
 
 if ( file.type === 'tree' ) { continue; }
 if ( !file.path.includes( path ) ) { continue; }
 
-SEL.files.push( file.path );
+TYP.files.push( file.path );
 
 }
 
 mnuItems.innerHTML =
-'Files count: ' + SEL.files.length + b +
-SEL.files.map( function( a ){ return '<small><div>' + a.link( '#' + a ) + '</div></small>'; } ).join( '' );
+'Files count: ' + TYP.files.length + b +
+TYP.files.map( function( a ){ return '<small><div>' + a.link( '#' + a ) + '</div></small>'; } ).join( '' );
 
 CON.setDefaultContents();
-}
 
 }
 
+}
 
 
-SEL.createGroups = function( path ) {
+
+TYP.createGroups = function( path ) {
 
 let headers;
 let response, file, fileName;
 
 let tree = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/git/trees/' + user.branch + '?recursive=1';
-SEL.groups = [];
-SEL.requestFile( tree, callback );
+TYP.groups = [];
+TYP.requestFile( tree, callback );
 
 function callback( xhr ) {
 
 response = JSON.parse( xhr.target.response );
 
-mnuItems.innerHTML = '<select id=selHeaders size=20 onchange=SEL.onHeaderSelected() style=width:100%; ></select>' + b + b +
+mnuItems.innerHTML = '<select id=selHeaders size=20 onchange=TYP.onHeaderSelected() style=width:100%; ></select>' + b + b +
 '<div id=selFile ></div>';
 
-SEL.headers = [];
+TYP.headers = [];
 
 for ( let i = 0; i < response.tree.length; i++ ) {
 
@@ -723,17 +750,17 @@ if ( file.type === 'tree' ) { continue; }
 if ( !file.path.includes( path ) ) { continue; }
 
 file = file.path;
-SEL.groups.push( file );
+TYP.groups.push( file );
 
 file = file.split( '/' );
 fileName = file.pop();
 file = file.join( '/' );
 
-if ( ! SEL.headers.includes( file ) ) {
+if ( ! TYP.headers.includes( file ) ) {
 
 selHeaders[ selHeaders.length ] = new Option( file );
 
-SEL.headers.push( file );
+TYP.headers.push( file );
 
 }
 
@@ -745,34 +772,34 @@ SEL.headers.push( file );
 
 
 
-SEL.onHeaderSelected = function() {
+TYP.onHeaderSelected = function() {
 
 let txt, header, name;
 
 txt = '';
 
 header = selHeaders.value;
-SEL.files = [];
-for ( let file of SEL.groups ) {
+TYP.files = [];
+for ( let file of TYP.groups ) {
 
 if ( file.includes( header ) ) {
 
 name = file.replace( ( header + "\/" ), '' );
 txt += '<div>' + name.link( '#' + file ) + '</div>';
 
-SEL.files.push( file );
+TYP.files.push( file );
 }
 
 }
 
-selFile.innerHTML = 'Files count: ' + SEL.files.length + b + txt;
+selFile.innerHTML = 'Files count: ' + TYP.files.length + b + txt;
 
 CON.setDefaultContents();
 
 }
 
 
-SEL.listByFolders = function ( path ) {
+TYP.listByFolders = function ( path ) {
 
 let txt, headers, response, file, fName, filePath, folders;
 let tree = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/git/trees/' + user.branch + '?recursive=1';
@@ -781,7 +808,7 @@ let link = 'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.bran
 txt = '';
 headers = [];
 
-SEL.requestFile( tree, callback );
+TYP.requestFile( tree, callback );
 
 function callback( xhr ) {
 
@@ -793,7 +820,7 @@ if ( file.type === 'tree' ) { continue; }
 if ( !file.path.includes( path ) ) { continue; }
 
 filePath = file.path;
-SEL.files.push( filePath )
+TYP.files.push( filePath )
 file = filePath.split( '/' );
 
 fName = file.pop();
@@ -824,13 +851,13 @@ CON.setDefaultContents();
 
 
 
-SEL.listAlphabetical = function( path ) {
+TYP.listAlphabetical = function( path ) {
 
 let tree = 'https://api.github.com/repos/' + user.user + '/' + user.repo + '/git/trees/' + user.branch + '?recursive=1';
 let link = 'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/';
 //	let response, txt, keys, filePath, name;
 
-SEL.requestFile( tree, callback );
+TYP.requestFile( tree, callback );
 
 function callback( xhr ) {
 
@@ -838,7 +865,7 @@ response = JSON.parse( xhr.target.response );
 
 txt = '';
 keys = [];
-SEL.files = [];
+TYP.files = [];
 
 for ( let file of response.tree ) {
 
@@ -848,7 +875,7 @@ if ( !file.path.includes( path ) ) { continue; }
 filePath = file.path;
 name = filePath.split( '/' ).pop();
 
-SEL.files.push( file.path );
+TYP.files.push( file.path );
 keys.push( name + '#' + filePath );
 
 }
@@ -868,7 +895,7 @@ txt +=
 }
 
 mnuItems.innerHTML =
-'Files in repo: ' + SEL.files.length + b +
+'Files in repo: ' + TYP.files.length + b +
 'Search <input id=inpText oninput=update(); />' + b +
 '<div id=mnuSelected ></div>';
 
@@ -908,15 +935,17 @@ CON.setDefaultContents();
 
 ////////////////// utilities
 
-SEL.highlightMenuItem = function() {
+TYP.highlightMenuItem = function() {
 
 let links;
 
 links = document.getElementsByTagName( 'a' );
 
-for ( let link of links ) {
+for ( link of links ) {
 
-link.parentElement.style.backgroundColor = link.hash && link.hash === location.hash ? 'darkgray' : '';
+//	link.parentElement.style.backgroundColor = link.hash && link.hash === location.hash ? 'darkgray' : '';
+
+link.parentElement.className = link.hash && link.hash === location.hash ? 'mnuHighlight' : '';
 
 }
 
@@ -924,7 +953,7 @@ link.parentElement.style.backgroundColor = link.hash && link.hash === location.h
 
 
 
-SEL.setBreadcrumbs = function( path ) {
+TYP.setBreadcrumbs = function( path ) {
 
 let name, txt, folders, str;
 
@@ -932,7 +961,7 @@ name = user.repo;
 
 name = user.path ? user.path : user.repo;
 
-txt = '<h3><a href=JavaScript:SEL.getTreeAllFiles(); >' + name + '</a> &raquo; </h3>';
+txt = '<h3><a href=JavaScript:TYP.getTreeAllFiles(); >' + name + '</a> &raquo; </h3>';
 
 folders = path ? path.split( '/' ) : [] ;
 
@@ -942,7 +971,7 @@ for ( let folder of folders ) {
 
 str += folder + '/';
 
-txt += '<h3><a href=JavaScript:SEL.getTreeAllFiles("' + str.slice( 0, -1 ) + '"); >' + folder + '</a> &raquo; </h3>';
+txt += '<h3><a href=JavaScript:TYP.getTreeAllFiles("' + str.slice( 0, -1 ) + '"); >' + folder + '</a> &raquo; </h3>';
 
 }
 
@@ -952,7 +981,7 @@ mnuBreadcrumbs.innerHTML = txt;
 
 
 
-SEL.requestFile = function ( fileName, callback ) {
+TYP.requestFile = function ( fileName, callback ) {
 
 xhr = new XMLHttpRequest();
 xhr.crossOrigin = 'anonymous';
@@ -981,15 +1010,12 @@ logo: '<img src=https://dianachace.github.io/diana.gif height=24 >',
 tagLine : '.',
 subText : '',
 title : '<img src=https://dianachace.github.io/diana.gif height=45 >',
-defaultFile : 'home-page.html'
+defaultFile : 'home-page.html',
 }
 
-if ( location.protocol === 'file:' ) {
+user.server = location.protocol === 'file:' ? '../../../../dianachace.github.io/' :
+'https://rawgit.com/' + user.user + '/' + user.repo + '/' + user.branch + '/' ;
 
-user.path = ''; //../../../../dianachace.github.io/';
-
-
-}
 MNU.tableOfContents =
 
 `
@@ -1007,7 +1033,7 @@ Family Houses
 * [Burrage House, Redlands CA](#!burrage-redlands/ )
 `;
 
-SEL.typeSelectedIndex = 0;
+TYP.typeSelectedIndex = 0;
 const b = '<br>';
 
 init();
@@ -1037,8 +1063,8 @@ MNU.init();
 
 CON.initContents();
 
-SEL.initSelectType();
-SEL.selectMenuType();
+TYP.initSelectType();
+TYP.selectMenuType();
 
 mnuItems.style.marginTop = '20px';
 mnuTagline.style.display = 'none';
@@ -1056,7 +1082,7 @@ function onHashChange() {
 
 CON.getFileSetContents( location.hash.slice( 1 ) );
 //	CON.setButtons( location.hash.slice( 1 ) );
-//	SEL.highlightMenuItem();
+//	TYP.highlightMenuItem();
 
 }
 
