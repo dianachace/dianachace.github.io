@@ -87,9 +87,10 @@ blockquote, pre { background-color: #eee; padding: 10px; }
 
 	<div id = "menu" >
 
-    <div id = "menuContents" class = "menu" ></div>
+		<div id = "menuContents" class = "menu" ></div>
 
-  </div>
+	</div>
+
 
 	<div id = "main" >
 
@@ -100,7 +101,7 @@ blockquote, pre { background-color: #eee; padding: 10px; }
 
 	<div id = "hamburger" onclick = "toggleNav();" > &#9776; slide</div>
 
-  <div id = "butEditFile" onclick = "onclickEditButton();" title = "Update this file on Glitch" ><img src = "https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg" > Edit this file</div>
+	<div id = "butEditFile" onclick = "onclickEditButton();" title = "Update this file on Glitch" ><img src = "https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg" > Edit this file</div>
 
 
 <script>
@@ -140,8 +141,8 @@ blockquote, pre { background-color: #eee; padding: 10px; }
 
 			url = '#home-page.html';
 
-//			requestFile( url, mainContents );
-			main.innerHTML = '<iframe id=mainIframe class=ifr src=' + host  + url + ' ></iframe>';
+			requestFile( url, mainContents );
+//			main.innerHTML = '<iframe id=mainIframe class=ifr src=' + host  + url + ' ></iframe>';
 
 		} else if ( url.startsWith( 'menu' ) ) {
 
