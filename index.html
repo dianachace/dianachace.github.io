@@ -101,12 +101,7 @@ blockquote, pre { background-color: #eee; padding: 10px; }
 
 	<div id = "hamburger" onclick = "toggleNav();" > &#9776; slide</div>
 
-	<div id = "butEditFile" onclick = "onclickEditButton();" title = "Update this file on Glitch" ><img src = "https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg" > Edit this file</div>
-
-
 <script>
-
-  let projectName = 'ta-core';
 
 	var host;
 
@@ -139,9 +134,10 @@ blockquote, pre { background-color: #eee; padding: 10px; }
 
 		if ( !url ) {
 
-			url = '#home-page.html';
-
+			url = 'home-page.html';
+console.log( 'url', url );
 			requestFile( url, mainContents );
+
 //			main.innerHTML = '<iframe id=mainIframe class=ifr src=' + host  + url + ' ></iframe>';
 
 		} else if ( url.startsWith( 'menu' ) ) {
@@ -161,8 +157,8 @@ blockquote, pre { background-color: #eee; padding: 10px; }
 			requestFile( host+ url, mainContents );
 
 		} else if ( url.includes( '.htm' ) ) {
-
-			main.innerHTML = '<iframe id=mainIframe class=ifr src=' + host  + url + ' ></iframe>';
+console.log( '', 23 );
+			main.innerHTML = '<iframe id=mainIframe class=ifr src='  + url + ' ></iframe>';
 
 		} else {
 
