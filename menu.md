@@ -13,7 +13,7 @@ School Reunion
 * [BBN Bulletin Spring 2017]( #bbn-bulletin-2017-spring/index.html )
 
 Family Houses
-* [Burrage House, Redlands CA](#!burrage-redlands/ )
+* [Burrage House, Redlands CA]( #view-gallery-remote.html )
 
 ***
 
