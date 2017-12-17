@@ -1,124 +1,95 @@
 <!doctype html>
-<html lang = "en" >
+<html lang="en" >
 <head>
-<meta charset = "utf-8" >
+<meta charset="utf-8" >
+<meta name="viewport" content = "width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0" >
+<meta name=description content="Basic menu wsliding" >
+<meta name=keywords content="JavaScript,GitHub,FOSS,3D,STEM" >
+<meta name = "date" content = "2017-12-08" >
 <title>Diana Chace</title>
-<meta name=viewport content='initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
-<meta name=description content='Browse and view files on DianaChace.com with remarkable ease.' >
-<meta name=keywords content='CSS,HTML,JavaScript,GitHub,FOSS' >
-<meta name=date content='2017-06-27' >
-
-<!-- https://clicktorelease.com -->
-<meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no" >
-
-<!-- Mr.doob
-<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
--->
-
 <style>
+/* Copyright 2017 pushMe pullYou authors. MIT License */
 
-/* items mostly in tag/class/id then alphabetical order */
+/* https://www.w3schools.com/colors/colors_names.asp // use colors and borders to help identify the scope of particular elements */
 
-body, html { font: 12pt monospace; height: 100%; margin: 0; /* overflow: hidden; */ }
+	html { --mnu-color: rgb( 255, 210, 255 ); --mnu-back-color: #877; --mnu-width:300px; height: 100%; }
 
-a { color: rgb( 255, 210, 255 ); }
+	body, html { font: 12pt monospace; height: 100%; margin: 0; overflow: hidden; }
 
-blockquote, pre { background-color: #eee; padding: 10px; }
+	a { color: var( --mnu-color ); font: 14pt monospace; text-decoration: none; }
+	a:hover, p:hover, a:focus, p:focus, #hamburger:hover { background-color: yellow; color: #888; }
 
+	blockquote, pre { background-color: #eee; padding: 10px; }
+	button, input[ type=button ] { background-color: #ddd; border: none; color: var( --mnu-color ); cursor: pointer; padding: 3px 20px; }
+	button:hover { background-color: #ccc; color: white }
 
-.center { height: 100%; left: 0; margin: 0 auto; max-width: 600px; position: absolute; right: 0; }
+	iframe { width: 100%; }
 
-.ifr { border-width: 0; height: 100%; margin: 0; width: 100%; }
+	p { text-indent: -20px; padding: 0 0 0 20px; }
 
-.menu { height: 100%; overflow: hidden; }
-.menu a { text-decoration: none; }
-.menu a:hover, .menu a:focus{ color: #f1f1f1; }
-
-.menu h2, .menu h3, .menu h4, .menu p, .menu iframe { color: #aaa; }
-
-
-#butEditFile { background-color: #555; color: #fff; opacity: 0.5; padding: 8px; position: fixed; right: 20px; top: 20px; vertical-align: middle; z-index: 1; }
-
-#butEditFile:hover { cursor: pointer; opacity: 1; }
-
-#butEditFile img { vertical-align: middle; width: 24px; }
-
-#hamburger {
-	background-color: #edd; cursor:pointer; font-size:30px;	left: 250px; line-height: 30px; margin: 0; opacity: 0.5;
-  padding: 5px 15px 8px 10px; position: fixed; top: 20px; transition: left .5s; z-index: 1;
-}
-
-#hamburger:hover { cursor: pointer; opacity: 1; }
-
-#main { height: 100%; margin-left: 250px; transition: margin-left .5s; position: relative; }
-
-#menu {
-  background-color: #877; box-sizing: border-box; height: 100%; left: 0; overflow: hidden;
-  position: fixed; top: 0; transition: 0.5s; width: 250px; z-index: 1;
-}
-
-#menuContents { border: 0px red solid; margin: 20px 10px 0 0; padding: 0 0 0 15px; overflow: hidden; }
+	#divContainer { background-color: #a99; height: 100%; margin: 0 0 0 var( --mnu-width ); transition: margin-left .5s; position: relative; }
+	#divContents { height: 100%; left: 0; margin: 0 auto;  right: 0;}
 
 
-@media screen and (max-height: 450px) {
-	.menu {padding-top: 15px;}
-	.menu a {font-size: 18px;}
-}
+	#divMenu { background-color: var( --mnu-back-color ); box-sizing: border-box; height: 100%; margin: 0;
+		overflow-x: hidden; padding: 90px 20px 30px 10px; position: fixed; top: 0; width: var( --mnu-width ); z-index: 1; transition: 0.5s; }
 
-
-/* specials for this project */
-
-.breakout { background-repeat:no-repeat; background-size:100% 100%; text-align:center; margin-left:-100%; margin-right:-100%; }
-
-/*
-  <div class="breakout" style=background-image:url("https://lorempixel.com/1000/500");height:500px; >breakout image</div>
-*/
-
-.button { background-color: #bbb; border: 1px solid #eee; color: #fff; display: inline-block; padding: 8px; vertical-align: middle; }
-
+	#hamburger { background-color: #edd; box-sizing: border-box; cursor: pointer; font-size: 30px; left: calc( var( --mnu-width ) - 100px );
+		line-height: 30px; margin: 0; padding: 5px 15px 8px 10px; position: fixed; top: 0; transition: left .5s; z-index: 10; }
 
 </style>
-
 </head>
-
-<script src = "https://cdn.rawgit.com/showdownjs/showdown/master/dist/showdown.min.js" ></script>
-
 <body>
 
-	<div id = "menu" >
+	<div id = "divMenu" >
 
-		<div id = "menuContents" class = "menu" ></div>
+		<div id = "divTitle" >
+
+			<a href='' style="font: 36pt monospace;" ><img src=https://dianachace.github.io/diana.gif width=100% ></a>
+
+		</div>
+
+
+		<h3>Model-Building Career</h3>
+
+		<p><a href='#artofpower/index.html' >&bull; Art of Power</a></p>
+
+		<p><a href='#models/models_architecture.htm ' >&bull; Architectural Models</a></p>
+
+		<p><a href='#models/models_engineer.htm' >&bull; Engineering Models</a></p>
+
+
+		<h3>School Reunion</h3>
+
+		<p><a href='#bbn-bulletin-2017-spring/index.html' >&bull; BBN Bulletin Spring 2017</a></p>
+
+
+		<h3>Family Houses</h3>
+
+		<p><a href=#burrage-redlands/index.html >&bull; Burrage House, Redlands CA</a></p>
 
 	</div>
 
+	<div id = "divContainer" >
 
-	<div id = "main" >
-
-		<div id = "mainContents" class = "center" ></div>
+		<div id = "divContents" ></div>
 
 	</div>
 
-
-	<div id = "hamburger" onclick = "toggleNav();" > &#9776; slide</div>
+	<div id = "hamburger" onclick=toggleNav(); > slide &#9776;  </div>
 
 <script>
 
-	var host;
+
 
 	init();
 
 
 	function init() {
 
-		showdown.setFlavor( 'github' );
-
-		getHost();
-
-		requestFile( 'menu.md', menuContents );
+		window.addEventListener( 'hashchange', onHashChange, false );
 
 		onHashChange();
-
-		window.addEventListener( 'hashchange', onHashChange, false );
 
 	}
 
@@ -126,67 +97,19 @@ blockquote, pre { background-color: #eee; padding: 10px; }
 
 	function onHashChange() {
 
-		let url, target;
+		let url;
 
-		url = location.hash.slice( 1 );
-
-		document.title = url.split( '/' ).pop();
-
-		if ( !url ) {
+		if ( !location.hash ) {
 
 			url = 'home-page.html';
-console.log( 'url', url );
-			requestFile( url, mainContents );
-
-//			main.innerHTML = '<iframe id=mainIframe class=ifr src=' + host  + url + ' ></iframe>';
-
-		} else if ( url.startsWith( 'menu' ) ) {
-
-			menu.innerHTML = '<div id=menuContents class=menu ></div>';
-
-			requestFile( url, menuContents );
-
-		} else if ( url.startsWith( 'html' ) ) {
-
-			menu.innerHTML = '<iframe id=menuIframe class=ifr src=' + url + ' ></iframe>';
-
-		} else if ( url.endsWith( '.md' ) ) {
-
-			main.innerHTML = '<div id=mainContents class=center ></div>';
-
-			requestFile( host+ url, mainContents );
-
-		} else if ( url.includes( '.htm' ) ) {
-console.log( '', 23 );
-			main.innerHTML = '<iframe id=mainIframe class=ifr src='  + url + ' ></iframe>';
 
 		} else {
 
-			mainIframe.contentWindow.location.hash = url;
-			menuIframe.contentWindow.location.hash = url
+			url = location.hash.slice( 1 );
 
 		}
 
-	}
-
-
-
-	function getHost() {
-
-		if ( location.protocol === 'file:' ) {
-
-			host = 'https://dianachace.github.io/';
-
-		} else {
-
-			host = '';
-
-		}
-
-	}
-	function onclickEditButton(){
-
-		window.open( 'https://github.com/dianachace/dianachace.github.io/' + location.hash.slice( 1 ) );
+		divContents.innerHTML = '<iframe src=' + url + ' style=border:none;height:100%;width100%; ></iframe>';
 
 	}
 
@@ -194,39 +117,23 @@ console.log( '', 23 );
 
 	function toggleNav() {
 
-		if ( !menu.style.width || menu.style.width === '250px' ) {
+		const width = getComputedStyle(document.documentElement).getPropertyValue( '--mnu-width' );
 
-			menu.style.width = '0';
-			hamburger.style.left = '0';
-			main.style.marginLeft = '0';
+		if ( !divMenu.style.width || divMenu.style.width === width ) {
+
+			divMenu.style.width = '0';
+			divMenu.style.padding = '0';
+			hamburger.style.left = '-100px';
+			divContainer.style.marginLeft = '0';
 
 		} else {
 
-			menu.style.width = '250px';
-			hamburger.style.left = '250px';
-			main.style.marginLeft = '250px';
+			divMenu.style.width = width;
+			divMenu.style.padding = '90px 20px 0 10px';
+			hamburger.style.left = 'calc( var( --mnu-width ) - 100px )';
+			divContainer.style.marginLeft = width;
 
 		}
-
-	}
-
-
-
-	function requestFile( url, target ) {
-
-		let converter, xhr;
-
-		converter = new showdown.Converter();
-
-		xhr = new XMLHttpRequest();
-		xhr.open( 'get', url, true );
-		xhr.onload = function() {
-
-			target.innerHTML = converter.makeHtml( xhr.responseText );
-
-		};
-
-		xhr.send( null );
 
 	}
 

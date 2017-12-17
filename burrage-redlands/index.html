@@ -3,52 +3,29 @@
 <head>
 <meta charset = "utf-8" >
 <meta name = "viewport" content = "width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" >
-<title></title>
+<title>Burrage House, Redlands CA</title>
 <style>
 
-	body { background-color: #eee; font: 12pt monospace; width: 100% }
-	a { color: crimson; text-decoration: none; }
-	#title { text-align: center; }
-
-/*  #contents { margin: 0 20px; max-width: 500px; position: absolute; } */
+	body { font: 12pt monospace; text-align:center; width: 100%; }
 
 </style>
 </head>
 <body>
 
-	<h1 id = "title" ><a  href = "" ></a></h1>
+	<h1 id = "title" ><a href = "" >Burrage House, Redlands CA</a></h1>
 	<div id = "contents" ></div>
 
 <script>
 
-	let user, repo, path, url;
-	let items, item, source;
 
 	init();
 
 	function init() {
 
-		if ( window.top !== window.self ) { 
-
-//			parent.divSubMenu.innerHTML = '';
-//			parent.ifrMenu.src = '';
-
-		}
-
-//		title.innerHTML = location.href.split( '/' ).pop().slice( 0, -5).replace( /-/g, ' ' );
-
-		getGallery();
-
-	}
-
-
-	function getGallery( user, repo, path ) {
-
-		user = 'dianachace';
-		repo = 'dianachace.github.io';
-		path = 'burrage-redlands';
-
-		url  = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/' + path;
+		const user = 'dianachace';
+		const repo = 'dianachace.github.io';
+		const path = 'burrage-redlands';
+		const url  = 'https://api.github.com/repos/' + user + '/' + repo + '/contents/' + path;
 
 		requestFile( url, callbackGalleryContents );
 
@@ -58,18 +35,17 @@
 
 	function callbackGalleryContents( xhr ){
 
-		let response, items, source, src;
-		let page = '';
+		let page = '<h1></h1>';
 
-		response = xhr.target.response;
-		items = JSON.parse( response );
+		const response = xhr.target.response;
+		const items = JSON.parse( response );
 
 		for ( let i = 0; i < items.length; i++ ) {
 
-			item = items[ i ];
+			const item = items[ i ];
 
-			source = item.download_url;
-			src = source.toLowerCase();
+			const source = item.download_url;
+			const src = source.toLowerCase();
 
 			if ( src.includes( '.thumb' ) || src.includes( '.highlight' ) || src.endsWith( '.dat' )  ||
 				src.endsWith( '.lock' ) || src.endsWith( '.avi' ) || src.endsWith( '.html' )) { continue; }
@@ -102,9 +78,7 @@
 
 	function requestFile( url, callback ) {
 
-		let xhr;
-
-		xhr = new XMLHttpRequest();
+		const xhr = new XMLHttpRequest();
 		xhr.open( 'get', url, true );
 		xhr.onload = callback;
 		xhr.send( null );
